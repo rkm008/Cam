@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel Pro v3</title>
+    <style>
+        :root { --glass: rgba(255, 255, 255, 0.05); --accent: #00d2ff; }
+        body { margin: 0; background: #0a0a0a; color: white; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .glass-card { width: 95%; max-width: 600px; margin: 20px; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 35px; padding: 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .live-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid var(--accent); position: relative; }
+        #feed { width: 100%; height: 100%; object-fit: cover; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .btn { padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: var(--accent); color: black; }
+        .btn-warn { border-color: #ff4b2b; color: #ff4b2b; }
+        .btn-warn:hover { background: #ff4b2b; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <h2 style="font-weight: 200; margin-bottom: 20px;">SENTINEL <span style="font-weight: 800;">PRO</span></h2>
+    
+    <div class="live-container">
+        <img id="feed" src="" alt="Connecting to Hardware...">
+        <audio id="audio-feed" autoplay></audio>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-warn" onclick="api('/toggle_alarm', {action:'ON'})">ACTIVATE ALARM</button>
+        <button class="btn" onclick="api('/toggle_alarm', {action:'OFF'})">STOP ALARM</button>
+    </div>
+
+    <div style="margin-top: 30px; display: flex; gap: 10px;">
+        <input type="password" id="new_p" placeholder="Update Password" style="flex:1; background: #000; border: 1px solid #333; color: white; padding: 10px; border-radius: 10px;">
+        <button class="btn" onclick="update()">SAVE</button>
+    </div>
+</div>
+
+<script>
+    // Automatically link to the camera bridge on the same phone
+    const ip = window.location.hostname;
+    document.getElementById('feed').src = `http://${ip}:8080/video`;
+    document.getElementById('audio-feed').src = `http://${ip}:8080/audio.wav`;
+
+    async function api(url, data) {
+        await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+    }
+
+    async function update() {
+        const p = document.getElementById('new_p').value;
+        await api('/update_pwd', {new_password: p});
+        alert("Password Changed");
+    }
+</script>
+</body>
+</html>
