@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Access</title>
+    <style>
+        body { margin: 0; height: 100vh; background: #0f0c29; display: flex; justify-content: center; align-items: center; font-family: sans-serif; color: white; }
+        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 25px; text-align: center; width: 300px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white; box-sizing: border-box; outline: none; }
+        button { width: 100%; padding: 12px; border-radius: 10px; border: none; background: #00d2ff; color: white; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>HUB ACCESS</h2>
+        <form action="/login" method="post">
+            <input type="password" name="password" placeholder="Admin Password" required autofocus>
+            <button type="submit">UNLOCK SYSTEM</button>
+        </form>
+    </div>
+</body>
+</html>
